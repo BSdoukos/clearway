@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> metadata}}
+    <link rel="stylesheet" href="css/settings.css">
+    <title>Clearway &mdash; Settings</title>
+</head>
+
+<body id="top">
+    {{> header}}
+    {{> sidebar this}}
+    <main class="main-content padded-container">
+        <p class="main-section__text">Settings</p>
+        <h1 class="title">These are the application's settings</h1>
+
+        <div class="settings-container">
+            <section class="settings-container__section">
+                <h2 class="settings-container__subtitle subtitle">Task contexts</h2>
+                <p class="settings-container__text text">Create your custom task contexts to organize your tasks a way
+                    which is more suitable to your routine.</p>
+                {{#each user.taskContexts}}
+                <div class="settings-card card shadow context-card">
+                    {{this}}
+                    <button class="settings-card__button delete-context-btn btn--icononly">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                role="button" />
+                        </svg>
+                    </button>
+                </div>
+                {{/each}}
+                <button class="settings-btn btn btn--unfilled btn--active" id="createContextBtn">Add new</button>
+            </section>
+            <section class="settings-container__section">
+                <h2 class="subtitle" id="profileSection">Profile</h2>
+                <p class="settings-container__text text">Edit your profile information such as photo, name, e-mail and
+                    password.</p>
+                <button class="btn btn--unfilled btn--active modal-toggler"
+                    data-toggles-modal="#profileSettingsModal">Edit profile</button>
+            </section>
+            <section class="settings-container__section">
+                <h2 class="settings-container__subtitle subtitle">Logout</h2>
+                <p class="settings-container__text text">Click <a href="logout" class="btn btn--unfilled btn--active"
+                        id="logoutBtn">here</a> to logout from your account.</p>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal-overlay">
+        <div class="modal card" id="profileSettingsModal">
+            <h2 class="modal__title subtitle">Edit profile</h2>
+            <p class="modal__text">Edit your profile information.</p>
+
+            <form class="modal__form" novalidate>
+                <div class="settings-group">
+                    <h3 class="settings-group__title card__title">Photo</h3>
+                    <div class="input-group">
+                        <label for="userphoto" class="modal__label">Current photo</label>
+                        <img width="75" src="profile/photo" alt="Your current profile photo" class="input-group__photo"
+                            id="profilePhoto">
+                        <button type="button" class="input-group__btn btn btn--unfilled btn--link"
+                            id="deleteProfilePhotoBtn">Delete
+                            photo</button>
+                        <label for="usernewphoto" class="modal__label">New photo (not selected)</label>
+                        <img src="" alt="Your new profile photo" class="input-group__photo hidden"
+                            id="profilePhotoPreview" width="75" height="75">
+                        <input class="hidden" type="file" name="usernewphoto" id="userNewPhotoInput">
+                        <button type="button" class="input-group__btn btn btn--unfilled btn--link"
+                            id="chooseProfilePhotoBtn">Choose
+                            photo</button>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3 class="settings-group__title card__title">Name</h3>
+                    <div class="input-group">
+                        <label for="username" class="modal__label">Current name</label>
+                        <input class="input modal__input" required type="text" name="currentname" id="userNameInput"
+                            value="{{user.name}}" disabled>
+                        <label for="usernewname" class="modal__label">New name</label>
+                        <input class="input modal__input" required type="text" name="name" id="userNewNameInput">
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3 class="settings-group__title card__title">E-mail</h3>
+                    <div class="input-group">
+                        <label for="useremail" class="modal__label">Current e-mail</label>
+                        <input class="input modal__input" required type="email" name="currentemail" id="userEmailInput"
+                            value="{{user.email}}" disabled>
+                        <label for="usernewemail" class="modal__label">New e-mail</label>
+                        <input class="input modal__input" required type="email" name="email" id="userNewEmailInput">
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3 class="settings-group__title card__title">Password</h3>
+                    <div class="input-group">
+                        <label for="userpassword" class="modal__label">Current password (type it to change)</label>
+                        <input class="input modal__input" required type="password" name="currentpassword"
+                            id="userPasswordInput">
+                        <label for="usernewpassword" class="modal__label">New password</label>
+                        <input class="input modal__input" required type="password" name="password"
+                            id="userNewPasswordInput">
+                    </div>
+                </div>
+
+                <div class="modal__button-container">
+                    <button type="submit" class="modal__btn modal__btn--active btn btn--unfilled"
+                        id="submitProfileChangesBtn">Save changes</button>
+                    <button class="modal__btn btn btn--unfilled close-modal-button"
+                        id="cancelProfileChangesBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay">
+        <div class="modal card" id="contextCreationModal">
+            <h2 class="modal__title subtitle">New context</h2>
+
+        </div>
+    </div>
+
+    {{> scrollToTopButton}}
+    {{> modals}}
+    {{> scripts}}
+    <script src="js/settings.js" type="module"></script>
+</body>
+
+</html>

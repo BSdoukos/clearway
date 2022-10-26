@@ -1,0 +1,43 @@
+.title {
+    margin-bottom: 6.25vh;
+}
+
+.section-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem
+}
+
+.main-section {
+    width: 100%;
+}
+
+.empty-state-container {
+    text-align: center;
+}
+
+.modal__subtitle {
+    margin-top: 1.5rem
+}
+
+.modal__input {
+    margin-bottom: 0;
+}
+
+.modal .card-container {
+    margin-top: 1rem;
+}
+
+.modal .card-container__empty-state-text {
+    text-align: left;
+}
+
+@media only screen and (min-width: 992px) {
+    .main-section {
+        width: calc(50% - 1.5rem);
+    }
+
+    .go-top-button {
+        display: none;
+    }
+}

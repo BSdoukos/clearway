@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> metadata}}
+  <link rel="stylesheet" href="css/analytics.css">
+  <title>Clearway &mdash; Analytics</title>
+</head>
+
+<body  id="top">
+  {{> header}}
+  {{> sidebar this}}
+  <main class="main-content padded-container">
+    <p class="main-section__text">Analytics</p>
+    <h1 class="main-section__title title">Here's what you've done lately</h1>
+
+    <section class="charts-section main-section">
+      <div class="chart-container">
+        <div class="wrapper">
+          <h1 class="chart-container__title subtitle">Task completion</h1>
+          <select id="taskCompletionChartSelector" class="chart-container__dropdown selector">
+            <option value="all">All</option>
+            {{#each taskContexts}}
+            <option value="{{this}}">{{capitalize this}}</option>
+            {{/each}}
+          </select>
+        </div>
+        {{#if stats.taskCompletion}}
+        <div class="chart-container__chart">
+          <canvas id="taskCompletionChart"></canvas>
+        </div>
+        {{else}}
+        <div class="empty-state-container">
+          <img src="../images/nostats.png" alt="" class="empty-state-container__img">
+          <p>No statistics available.</p>
+        </div>
+        {{/if}}
+      </div>
+      <div class="chart-container">
+        <div class="wrapper">
+          <h1 class="chart-container__title subtitle">Tasks by context</h1>
+          <select id="tasksByContextChartSelector" class="chart-container__dropdown selector">
+            <option value="all">All tasks</option>
+            <option value="completed">Completed</option>
+            <option value="uncompleted">Uncompleted</option>
+          </select>
+        </div>
+        {{#if stats.tasksByContext}}
+        <div class="chart-container__chart">
+          <canvas id="tasksByContextChart"></canvas>
+        </div>
+        {{else}}
+        <div class="empty-state-container">
+          <img src="../images/nostats.png" alt="" class="empty-state-container__img">
+          <p>No statistics available.</p>
+        </div>
+        {{/if}}
+      </div>
+      </div>
+      <div class="chart-container">
+        <div class="wrapper">
+          <h1 class="chart-container__title subtitle">Project completion</h1>
+        </div>
+        {{#if stats.projectCompletion}}
+        <div class="chart-container__chart">
+          <canvas id="projectCompletionChart"></canvas>
+        </div>
+        {{else}}
+        <div class="empty-state-container">
+          <img src="../images/nostats.png" alt="" class="empty-state-container__img">
+          <p>No statistics available.</p>
+        </div>
+        {{/if}}
+      </div>
+      <div class="chart-container">
+        <div class="wrapper">
+          <h1 class="chart-container__title subtitle">Work history</h1>
+          <select id="workHistoryChartSelector" class="chart-container__dropdown selector">
+            <option value="week">This week</option>
+            <option value="month">Last weeks</option>
+            <option value="semester">Last 6 months</option>
+          </select>
+        </div>
+        {{#if stats.workHistory}}
+        <div class="chart-container__chart">
+          <canvas id="workHistoryChart"></canvas>
+        </div>
+        {{else}}
+        <div class="empty-state-container">
+          <img src="../images/nostats.png" alt="" class="empty-state-container__img">
+          <p>No statistics available.</p>
+        </div>
+        {{/if}}
+      </div>
+    </section>
+  </main>
+  {{> scrollToTopButton}}
+  {{> modals}}
+  {{> scripts}}
+  <script>
+    window.stats = {{{json stats}}}
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/utils/charts.js"></script>
+  <script src="js/analytics.js" type="module"></script>
+</body  id="top">
+
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "clearway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/server.js",
+    "dev": "nodemon app/server.js -e js,hbs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "chart.js": "^3.7.1",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.1",
+    "hbs": "^4.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.1.0",
+    "mongoose": "^6.0.5",
+    "multer": "^1.4.4",
+    "node-schedule": "^2.1.0",
+    "nodemailer": "^6.7.5",
+    "sharp": "^0.30.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

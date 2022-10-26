@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{> metadata}}
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Clearway &mdash; Dashboard</title>
+</head>
+
+<body id="top">
+    {{> header}}
+    {{> sidebar this}}
+    <div class="col-lg-1">
+        <section class="main-section padded-container" id="startSection">
+            <p class="main-section__text">Hello, {{userFirstName}}!</p>
+            <p class="main-section__title title">
+                {{#if tasksAndEventsNumber}}
+                You've got {{tasksAndEventsNumber}} {{#if multipleTasksAndEvents}}tasks/events{{else}}task/event{{/if}}
+                {{displayDate}}
+                {{else}}
+                You've got no tasks/events {{displayDate}}
+                {{/if}}
+            </p>
+            <form class="search-line search-form" action="#" method="GET">
+                <button type="submit" class="search-line__submit" id="searchButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.15em" height="1.15em" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+                <input type="text" class="search-line__input" id="searchInput" placeholder="Search for tasks or events">
+            </form>
+            <div class="card wrapper shadow work-assistant-box">
+                <div class="col-1">
+                    <h2 class="card__title">Work assistant</h2>
+                    <p class="card__text text--final">Start intelligently guided work</p>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn--yellow btn--semirounded icon-button modal-toggler"
+                        data-toggles-modal="#workAssistantInitModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="main-section card-section padded-container" id="tasksSection">
+            <div class="wrapper wrapper--md">
+                <h2 class="main-section__title subtitle">Tasks ({{tasks.length}})</h2>
+                <select id="taskContextSelector" class="selector">
+                    <option value="all">All contexts</option>
+                    {{#each taskContexts}}
+                    <option value="{{this}}">{{capitalize this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="card-container" data-item="task">
+                {{#if tasks}}
+                {{#each tasks}}
+                <div class="card shadow" data-item-id="{{this._id}}" data-recurrence="{{this.recurrence}}">
+                    <div class="front-side">
+                        <h3 class="card__title">{{this.name}} {{#if this.projectContext}} - {{this.projectContext}}{{/if}}</h3>
+                        <p class="card__text">{{this.description}}</p>
+                        <p class="card__text card__text--row text--final">
+                            <span class="card__text-module icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-stopwatch" viewBox="0 0 16 16">
+                                    <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5V5.6z" />
+                                    <path
+                                        d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64a.715.715 0 0 1 .012-.013l.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354a.512.512 0 0 1-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3z" />
+                                </svg>
+                                &nbsp;&nbsp;{{this.hours}}h{{this.minutes}}min
+                            </span>
+                            <span class="card__text-module icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-lightning-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z" />
+                                </svg>
+                                &nbsp;{{this.energy}}
+                            </span>
+                            <span class="card__text-module icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                </svg>
+                                &nbsp;&nbsp;{{this.importance}}
+                            </span>
+                            {{#if this.daysLeftUntilDeadline}}
+                            <span class="card__text-module icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+                                </svg>
+                                &nbsp;&nbsp;{{this.daysLeftUntilDeadline}}d
+                            </span>
+                            {{/if}}
+                        </p>
+                        <button class="btn--icononly card__btn card__btn--corner icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em" fill="currentColor"
+                                class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="back-side" aria-hidden="true">
+                        <button class="btn icon-button complete-item-button" title="Mark as completed">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path
+                                    d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </button>
+                        <button class="btn icon-button edit-item-button modal-toggler" title="Edit"
+                            data-toggles-modal="#taskEditionModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                        <button class="btn icon-button delete-item-button modal-toggler" title="Delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                            </svg>
+                        </button>
+                        <button class="btn--icononly card__btn card__btn--corner icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                <img src="../images/notasks.png" alt="" class="main-section__empty-state-image">
+                <p>You have no tasks in this context.</p>
+                {{/if}}
+            </div>
+        </section>
+        <section class="main-section card-section padded-container" id="projectsSection">
+            <h2 class="main-section__title subtitle">Projects ({{projects.length}})</h2>
+            <div class="card-container" data-item="project">
+                {{#if projects}}
+                {{#each projects}}
+                <div class="card shadow" data-item-id="{{this._id}}">
+                    <div class="front-side">
+                        <h3 class="card__title">{{this.name}} ({{this.tasks.length}} items)</h3>
+                        <p class="card__text">{{this.description}}</p>
+                        <div class="wrapper">
+                            <h3 class="card__subtitle">Progress</h3>
+                            <span class="card__text brand-color">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="completed-bar" style="width: {{this.completionPercentage}}%;"></div>
+                        </div>
+                        <button class="btn--icononly card__btn card__btn--corner icon-button modal-toggler">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em" fill="currentColor"
+                                class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="back-side" aria-hidden="true">
+                        <button class="btn icon-button manage-project-button" title="Manage">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                            </svg>
+                        </button>
+                        <button class="btn--icononly card__btn card__btn--corner icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                <img src="../images/noprojects.png" alt="" class="main-section__empty-state-image">
+                <p>You have no unfinished projects.</p>
+                {{/if}}
+            </div>
+            <div class="pagination"></div>
+        </section>
+    </div>
+    <div class="col-lg-2">
+        <section class="main-section" id="userSection">
+            <div class="padded-container">
+                <div class="card wrapper shadow work-assistant-box">
+                    <div class="col-1">
+                        <h2 class="card__title">Work assistant</h2>
+                        <p class="card__text text--final">Start intelligently guided work</p>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn--yellow btn--semirounded icon-button modal-toggler"
+                            data-toggles-modal="#workAssistantInitModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-play-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="main-section card-section padded-container" id="eventsSection">
+            <div class="wrapper">
+                <h2 class="main-section__title subtitle">Events ({{events.length}})</h2>
+                <button class="btn btn--yellow icon-button modal-toggler" id="calendarButton"
+                    data-toggles-modal="#calendarModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-calendar" viewBox="0 0 16 16">
+                        <path
+                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="card-container" data-item="event">
+                {{#if events}}
+                {{#each events}}
+                <div class="card-wrapper">
+                    <span class="timeline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-record" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                        </svg>
+                        <div class="line"></div>
+                    </span>
+                    <div class="card shadow" data-item-id="{{this._id}}" data-recurrence="{{this.recurrence}}">
+                        <div class="front-side">
+                            <h3 class="card__title">{{this.name}}</h3>
+                            <p class="card__text">{{this.time}}</p>
+                            <p class="card__text text--final">{{this.address}}</p>
+                            <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em"
+                                    fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="back-side" aria-hidden="true">
+                            <button class="btn icon-button complete-item-button" title="Mark as completed">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                </svg>
+                            </button>
+                            <button class="btn icon-button edit-item-button modal-toggler" title="Edit"
+                                data-toggles-modal="#taskEditionModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path
+                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd"
+                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                            </button>
+                            <button class="btn icon-button delete-item-button modal-toggler" title="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                </svg>
+                            </button>
+                            <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                <img src="../images/noevents.png" alt="" class="main-section__empty-state-image">
+                <p>You have no events today.</p>
+                {{/if}}
+            </div>
+        </section>
+    </div>
+
+    {{> scrollToTopButton}}
+    {{> modals this }}
+
+    <div class="modal-overlay">
+        <div class="modal card" id="taskEditionModal">
+            <h2 class="modal__title subtitle">Edit task</h2>
+            <form action="#" method="POST" class="modal__form">
+                <label for="name" class="modal__label">Task name</label>
+                <input type="text" name="name" class="input modal__input" maxlength="35" required>
+
+                <label for="description" class="modal__label">Short description</label>
+                <textarea name="description" class="input modal__input" maxlength="110" required></textarea>
+
+                <label class="modal__label">Duration </label>
+                <input name='hours' type='number' min='0' max='24' class="input modal__input input input--numeric">
+                <label for='hours' class="modal__label--numeric" required>hours</label>
+                <input name='minutes' type='number' min='0' max='59' class="input modal__input input input--numeric">
+                <label for='minutes' class="modal__label--numeric" required>minutes</label>
+
+                <label for="context" class="modal__label">Context</label>
+                <select name="context" class="input modal__input" required>
+                    <option value="all">All contexts</option>0
+                    {{#each taskContexts}}
+                    <option value="{{this}}">{{capitalize this}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="energy" class="modal__label">Energy</label>
+                <select name="energy" class="input modal__input" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+
+                <label for="importance" class="modal__label">Importance</label>
+                <select name="importance" class="input modal__input" required>
+                    <option value="main">Main</option>
+                    <option value="side">Side</option>
+                </select>
+
+                <label for="deadline" class="modal__label">Deadline</label>
+                <input type="datetime-local" name="deadline" class="input modal__input">
+
+                <label for="projectRelated" class="modal__label">Project</label>
+                <select name="projectRelated" class="input modal__input" required>
+                    <option value="none">None</option>
+                    {{#each projects}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+
+
+                <div class="modal__button-container">
+                    <button type="submit"
+                        class="modal__btn modal__btn--active btn btn--unfilled close-modal-button update-item-button"
+                        data-item="task">Update
+                        task</button>
+                    <button class="modal__btn btn btn--unfilled close-modal-button">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay">
+        <div class="modal card" id="eventEditionModal">
+            <h2 class="modal__title subtitle">Edit event</h2>
+            <form action="#" method="POST" class="modal__form">
+                <label for="name" class="modal__label">Event name</label>
+                <input type="text" name="name" class="input modal__input" maxlength="35" required>
+
+                <label for="date" class="modal__label">Date</label>
+                <input type="date" name="date" class="input modal__input" required>
+
+                <label for="recurrence" class="modal__label">Recurrence</label>
+                <select name="recurrence" data-card-property="recurrence" class="input modal__input" required>
+                    <option value="one time">One time</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+
+                <label for="time" class="modal__label">Time</label>
+                <input type="time" name="time" class="input modal__input" required>
+
+                <label for="address" class="modal__label">Address</label>
+                <input type="text" name="address" class="input modal__input" required>
+
+                <div class="modal__button-container">
+                    <button type="submit"
+                        class="modal__btn modal__btn--active btn btn--unfilled close-modal-button update-item-button"
+                        data-item="event">Update
+                        event</button>
+                    <button class="modal__btn btn btn--unfilled close-modal-button">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay">
+        <div class="modal card" id="calendarModal">
+            <h2 class="modal__title subtitle">Upcoming events</h2>
+            <select class="input modal__input" required id="eventTimeRangeSelector">
+                <option value="2592000000">1 month</option>
+                <option value="15552000000">6 months</option>
+                <option value="31536000000">1 year</option>
+            </select>
+            <div class="modal__main-container">
+                <div style="text-align: center; margin-bottom: 1.25rem;">
+                    <img src="../images/noevents.png" alt="You don't have any upcoming events."
+                        class="main-section__empty-state-image">
+                </div>
+            </div>
+            <div class="modal__button-container">
+                <button class="modal__btn btn btn--unfilled close-modal-button">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay">
+        <div class="modal card" id="specifyDeletionTypeModal">
+            <h2 class="modal__title subtitle">Delete recurring item</h2>
+            <label class="modal__label modal__inline-input-group">
+                <input type="radio" name="deletiontype" value="one">
+                This item
+            </label>
+            <label class="modal__label modal__inline-input-group">
+                <input type="radio" name="deletiontype" value="all">
+                All items
+            </label>
+            <div class="modal__button-container">
+                <button class="modal__btn modal__btn--active btn btn--unfilled close-modal-button"
+                    id="deleteRecurringItemBtn">Delete</button>
+                <button class="modal__btn btn btn--unfilled close-modal-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay">
+        <div class="modal card" id="workAssistantInitModal">
+            <h2 class="modal__title subtitle">Work assistant</h2>
+            <p class="text modal__text">Optimize your workflow by accomplishing tasks according to your circustances and
+                priorities.</p>
+            <form action="#" method="POST" class="modal__form">
+                <label for="context" class="modal__label">Where are you now?</label>
+                <select name="context" class="input modal__input" required>
+                    <option value="all">All</option>
+                    {{#each taskContexts}}
+                    <option value="{{this}}">{{capitalize this}}</option>
+                    {{/each}}
+                </select>
+                <label for="energy" class="modal__label">How's your energy/vigor?</label>
+                <select name="energy" class="input modal__input" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <fieldset>
+                    <legend class="modal__label">How many time do you have to work?</legend>
+                    <input name="hours" type='number' min="0" max="8" class="input modal__input input input--numeric"
+                        required>
+                    <label for="hours" class="modal__label--numeric" required>hours</label>
+                    <input name="minutes" type='number' min="0" max="59" class="input modal__input input input--numeric"
+                        required>
+                    <label for="minutes" class="modal__label--numeric" required>minutes</label>
+                </fieldset>
+                <div class="modal__button-container">
+                    <button class="modal__btn modal__btn--active btn btn--unfilled modal-toggler"
+                        id="startWorkAssistantButton">Start</button>
+                    <button class="modal__btn btn btn--unfilled close-modal-button">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay">
+        <div class="modal card" id="workAssistantFlowModal">
+            <h2 class="modal__title subtitle">Work assistant</h2>
+            <p class="text modal__text">We've picked a task for you. When you finish it, click "Next" to go to another
+                task or "Finish" to stop working.</p>
+            <div class="card-container card-container--nomargin"></div>
+            <div class="modal__button-container">
+                <button class="modal__btn modal__btn--active btn btn--unfilled modal-toggler"
+                    id="waCompleteTaskButton">Complete</button>
+                <button class="modal__btn btn btn--unfilled" id="waSkipTaskButton">Skip</button>
+                <button class="modal__btn btn btn--unfilled close-modal-button" id="waStopButton">Stop</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer card shadow">
+        <form method="GET" class="drawer__form">
+            <label for="viewdate" class="drawer__title card__title">Alterar data de visualização</label>
+            <input type="date" name="viewdate" class="input drawer__input">
+            <button type="submit" class="drawer__btn btn btn btn--unfilled btn--active"
+                id="changeViewDateBtn">Recarregar dashboard</button>
+            <button type="button" class="drawer__toggle btn btn--yellow icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22.5" height="22.5" fill="currentColor"
+                    class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                </svg>
+            </button>
+        </form>
+
+    </div>
+
+    {{> scripts}}
+    <script src="js/dashboard.js" type="module"></script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> metadata}}
+    <link rel="stylesheet" href="css/projects-reference-logs.css">
+    <title>Clearway &mdash; Projects</title>
+</head>
+
+<body id="top">
+    {{> header}}
+    {{> sidebar this}}
+    <main class="main-content padded-container">
+        <p class="main-section__text">Projects</p>
+        <h1 class="title">
+            {{#if projects.uncompleted.length}}
+            You have {{projects.uncompleted.length}} unfinished project{{#if projects.multipleUnfinished}}s{{/if}}
+            {{displayDate}}
+            {{else}}
+            You have no unfinished projects {{displayDate}}
+            {{/if}}
+        </h1>
+        <div class="section-container">
+            <section class="main-section in-progress-projects">
+                <h2 class="main-section__title subtitle">In progress</h2>
+                {{#if projects.uncompleted}}
+                <div class="card-container">
+                    {{#each projects.uncompleted}}
+                    <div class="card shadow" data-item-id="{{this._id}}">
+                        <h3 class="card__title">{{this.name}} ({{this.tasks.length}} items)</h3>
+                        <p class="card__text">{{this.description}}</p>
+                        <div class="wrapper">
+                            <h3 class="card__subtitle">Progress</h3>
+                            <span class="card__text brand-color">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="completed-bar" style="width: {{this.completionPercentage}}%;"></div>
+                        </div>
+                        <button
+                            class="btn--icononly card__btn card__btn--corner icon-button modal-toggler edit-project-btn"
+                            data-toggles-modal="#projectManagementModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em" fill="currentColor"
+                                class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <div class="empty-state-container">
+                    <img src="../images/noprojects.png" alt="" class="main-section__empty-state-image">
+                    <p>You have no projects in progress.</p>
+                </div>
+                {{/if}}
+            </section>
+            <section class="main-section finished-projects">
+                <h2 class="main-section__title subtitle">Finished</h2>
+                {{#if projects.completed}}
+                <div class="card-container">
+                    {{#each projects.completed}}
+                    <div class="card shadow" data-item-id="{{this._id}}">
+                        <h3 class="card__title">{{this.name}} ({{this.tasks.length}} items)</h3>
+                        <p class="card__text">{{this.description}}</p>
+                        <div class="wrapper">
+                            <h3 class="card__subtitle">Progress</h3>
+                            <span class="card__text brand-color">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="completed-bar" style="width: {{this.completionPercentage}}%;"></div>
+                        </div>
+                        <button
+                            class="btn--icononly card__btn card__btn--corner icon-button modal-toggler edit-project-btn"
+                            data-toggles-modal="#projectManagementModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em" fill="currentColor"
+                                class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <div class="empty-state-container">
+                    <img src="../images/noprojects.png" alt="" class="main-section__empty-state-image">
+                    <p>You have no finished projects.</p>
+                </div>
+                {{/if}}
+            </section>
+        </div>
+    </main>
+
+    <div class="modal-overlay">
+        <div class="modal card" id="projectManagementModal">
+            <h2 class="modal__title subtitle">Manage project</h2>
+
+            <form id="projectEditionForm">
+                <label for="name" class="modal__label">Name</label>
+                <input type="text" name="name" class="input modal__input" maxlength="35" required>
+                <label for="description" class="modal__label">Description</label>
+                <textarea name="description" class="input modal__input" maxlength="110" required></textarea>
+            </form>
+
+            <h3 class="modal__subtitle">Tasks (<span id="projectTaskNumber">0</span>)</h3>
+            <div class="card-container project-tasks-container">
+                <p class="text card-container__empty-state-text">This project hasn't tasks.</p>
+            </div>
+            <button class="modal__btn modal__btn--danger btn btn--link close-modal-button delete-project-btn">Delete
+                project</button>
+            <div class="modal__button-container">
+                <button type="submit"
+                    class="modal__btn modal__btn--active btn btn--unfilled close-modal-button save-project-button"
+                    data-item="task">Save</button>
+                <button class="modal__btn btn btn--unfilled close-modal-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    {{> scrollToTopButton}}
+    {{> modals}}
+    {{> scripts}}
+    <script>
+        window.projects = {{{ json projects }}}
+        projects = projects.completed.concat(projects.uncompleted);
+    </script>
+    <script src="js/projecting.js" type="module"></script>
+</body id="top">
+
+</html>

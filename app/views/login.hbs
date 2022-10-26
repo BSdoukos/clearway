@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Clearway, task, event, project, organizer, organization, habit, calendar">
+    <meta name="description" content="Organize your tasks, events and projects in one place.">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Clearway &mdash; Login</title>
+</head>
+
+<body>
+    <main class="main-content">
+        <div class="form-container" id="loginContainer">
+            <img src="images/logo.png" alt="Clearway logo" class="form-container__logo">
+            <h1 class="form-container__title">Login</h1>
+            <form method="POST" action="signup" class="form-container__form" novalidate>
+                <div class="form-container__input-group input-group">
+                    <label for="email" class="input-group__label">Email</label>
+                    <input type="email" name="email" id="loginEmailInput" class="input-group__input">
+                </div>
+                <div class="form-container__input-group input-group">
+                    <label for="password" class="input-group__label">Password</label>
+                    <input type="password" name="password" id="loginPasswordInput" class="input-group__input">
+                </div>
+                <button type="submit" class="btn form-container__btn">Enter</button>
+            </form>
+            <p class="form-container__text">Don't have an account? <button class="btn btn--unfilled btn--active toggle-form-button">Sign up!</button></p>
+            <p class="form-container__text">If you've forgotten your password, click <a href="passwordrecovery" class="btn btn--unfilled btn--active" id="recoverPasswordButton">here</a>.</p>
+        </div>
+        <div class="form-container" id="signUpContainer">
+            <img src="images/logo.png" alt="Clearway logo" class="form-container__logo">
+            <h1 class="form-container__title">Sign up</h1>
+            <form method="POST" action="signup" class="form-container__form" novalidate>
+                <div class="form-container__input-group input-group">
+                    <label for="name" class="input-group__label">Name</label>
+                    <input type="text" name="name" id="n" class="input-group__input">
+                </div>
+                <div class="form-container__input-group input-group">
+                    <label for="email" class="input-group__label">Email</label>
+                    <input type="email" name="email" id="signUpEmailInput" class="input-group__input">
+                </div>
+                <div class="form-container__input-group input-group">
+                    <label for="password" class="input-group__label">Password</label>
+                    <input type="password" name="password" id="signUpPasswordInput" class="input-group__input">
+                </div>
+                <div class="form-container__input-group input-group">
+                    <label for="passwordconfirmation" class="input-group__label">Confirm your password</label>
+                    <input type="password" name="passwordconfirmation" id="signUpPasswordConfirmationInput" class="input-group__input">
+                </div>
+                <button type="submit" class="btn form-container__btn">Submit</button>
+            </form>
+            <p class="form-container__text">Already have an account? <button class="btn btn--unfilled btn--active toggle-form-button">Login!</button></p>
+        </div>
+    </main>
+
+    <div class="error-alert"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/login.js" type="module"></script>
+</body>
+
+</html>

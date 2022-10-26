@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> metadata}}
+    <link rel="stylesheet" href="css/projects-reference-logs.css">
+    <title>Clearway &mdash; Logs</title>
+</head>
+
+<body id="top">
+    {{> header}}
+    {{> sidebar this}}
+    <main class="main-content padded-container">
+        <p class="main-section__text">Logs</p>
+        <h1 class="main-section__title title">Here's what you've concluded</h1>
+
+        <div class="section-container">
+            <section class="main-section in-progress-projects">
+                <h2 class="main-section__title subtitle">Tasks</h2>
+                <div class="card-container" data-item-type="task">
+                    {{#if tasks}}
+                    {{#each tasks}}
+                    <div class="card shadow" data-item-id="{{this._id}}" data-recurrence="{{this.recurrence}}">
+                        <div class="front-side">
+                            <h3 class="card__title">{{this.name}} {{#if this.projectContext}} -
+                                {{this.projectContext}}{{/if}}</h3>
+                            <p class="card__text">{{this.description}}</p>
+                            <p class="card__text card__text--row">
+                                <span class="card__text-module icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-stopwatch" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5V5.6z" />
+                                        <path
+                                            d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64a.715.715 0 0 1 .012-.013l.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354a.512.512 0 0 1-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3z" />
+                                    </svg>
+                                    &nbsp;&nbsp;{{this.hours}}h{{this.minutes}}min
+                                </span>
+                                <span class="card__text-module icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-lightning-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z" />
+                                    </svg>
+                                    &nbsp;{{this.energy}}
+                                </span>
+                                <span class="card__text-module icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                    </svg>
+                                    &nbsp;&nbsp;{{this.importance}}
+                                </span>
+                                {{#if this.daysLeftUntilDeadline}}
+                                <span class="card__text-module icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+                                    </svg>
+                                    &nbsp;&nbsp;{{this.daysLeftUntilDeadline}}d
+                                </span>
+                                {{/if}}
+                            </p>
+                            <p class="card__text text--final"><i>Accomplished on <span
+                                        class="completion-date">{{this.completed}}</span></i></p>
+                            <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em"
+                                    fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="back-side" aria-hidden="true">
+                            <button class="btn icon-button uncomplete-item-button" title="Mark as uncompleted">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
+                                    <path
+                                        d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+                                </svg>
+                            </button>
+                            <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="empty-state-container">
+                        <img src="../images/noprojects.png" alt="" class="main-section__empty-state-image">
+                        <p>There are no logs to show.</p>
+                    </div>
+                    {{/if}}
+                </div>
+            </section>
+            <section class="main-section finished-projects">
+                <h2 class="main-section__title subtitle">Events</h2>
+                <div class="card-container" data-item-type="event">
+                    {{#if events}}
+                    {{#each events}}
+                    <div class="card-wrapper">
+                        <div class="card shadow" data-item-id="{{this._id}}" data-recurrence="{{this.recurrence}}">
+                            <div class="front-side">
+                                <h3 class="card__title">{{this.name}}</h3>
+                                <p class="card__text">{{this.time}}</p>
+                                <p class="card__text">{{this.address}}</p>
+                                <p class="card__text text--final"><i>Attended on <span
+                                            class="completion-date">{{this.completed}}</span></i></p>
+                                <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em"
+                                        fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="back-side" aria-hidden="true">
+                                <button class="btn icon-button uncomplete-item-button" title="Mark as uncompleted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+                                    </svg>
+                                </button>
+                                <button class="btn--icononly card__btn card__btn--corner icon-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="empty-state-container">
+                        <img src="../images/noprojects.png" alt="" class="main-section__empty-state-image">
+                        <p>There are no logs to show.</p>
+                    </div>
+                    {{/if}}
+                </div>
+            </section>
+        </div>
+    </main>
+    {{> scrollToTopButton}}
+    {{> modals}}
+    {{> scripts}}
+    <script src="js/logs.js" type="module"></script>
+</body id="top">
+
+</html>
